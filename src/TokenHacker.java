@@ -1,8 +1,11 @@
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 public class TokenHacker {
 	static String token = "";
@@ -26,7 +29,7 @@ public class TokenHacker {
 			decrypt();
 		}
 	}
-	
+
 	// Encrypts the token when the user provides their token and password
 	public static void encrypt() throws Exception {
 		try {
@@ -40,16 +43,8 @@ public class TokenHacker {
 
 		boolean isCorrectPassword = false;
 		while (!isCorrectPassword) {
-			try {
-				password = ((String) JOptionPane.showInputDialog(null, "Please enter your GitHub password.",
-						"GitHub Password", JOptionPane.QUESTION_MESSAGE, iconPassword, null, null)).trim();
-				password2 = ((String) JOptionPane.showInputDialog(null, "Please enter your GitHub password again.",
-						"GitHub Password", JOptionPane.QUESTION_MESSAGE, iconPassword, null, null)).trim();
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Unsuccessful. Goodbye :)", "Hacking Error",
-						JOptionPane.ERROR_MESSAGE, iconError);
-				System.exit(1);
-			}
+			password = inputPassword("Please enter your GitHub password.");
+			password2 = inputPassword("Please enter your GitHub password again.");
 
 			if (password.equals(password2)) {
 				isCorrectPassword = true;
@@ -61,20 +56,12 @@ public class TokenHacker {
 		AESCipher.encrypt(token, password);
 	}
 
-	/*
-	 * Decrypts the token when the user provides their password
-	 */
+	// Decrypts the token when the user provides their password
 	public static void decrypt() {
 		boolean isCorrectPassword = false;
 		while (!isCorrectPassword) {
-			try {
-				password = ((String) JOptionPane.showInputDialog(null, "Please enter your GitHub password.",
-						"GitHub Password", JOptionPane.QUESTION_MESSAGE, iconPassword, null, null)).trim();
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Unsuccessful. Goodbye :)", "Hacking Error",
-						JOptionPane.ERROR_MESSAGE, iconError);
-				System.exit(1);
-			}
+			password = inputPassword("Please enter your GitHub password.");
+
 			try {
 				AESCipher.decrypt(password);
 				isCorrectPassword = true;
@@ -84,6 +71,30 @@ public class TokenHacker {
 						JOptionPane.ERROR_MESSAGE, iconIncorrect);
 			}
 		}
+	}
+
+	// Custom password input that hides the text
+	public static String inputPassword(String prompt) {
+		Box box = Box.createVerticalBox();
+		JLabel label = new JLabel(prompt);
+		JPasswordField text = new JPasswordField(6);
+
+		box.add(label);
+		box.add(text);
+
+		int button = JOptionPane.showConfirmDialog(null, box, "GitHub Password", JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE, iconPassword);
+
+		if (button == JOptionPane.OK_OPTION) {
+			return new String(text.getPassword()).trim();
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Unsuccessful. Goodbye :)", "Hacking Error", JOptionPane.ERROR_MESSAGE,
+					iconError);
+			System.exit(1);
+		}
+		return null;
+
 	}
 
 	public static ImageIcon loadImage(String file) {
