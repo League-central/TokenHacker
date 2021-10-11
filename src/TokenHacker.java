@@ -14,6 +14,7 @@ public class TokenHacker {
 	static Icon iconError = loadImage("error.jpeg");
 	static Icon iconIncorrect = loadImage("incorrect_password.jpeg");
 
+	// Calls encrypt() or decrypt()
 	public void hack() throws Exception {
 		String options[] = { "Decrypt", "Encrypt" };
 		int cipherChoice = JOptionPane.showOptionDialog(null, "Would you like to encrypt\nor decrypt your token?",
@@ -25,7 +26,8 @@ public class TokenHacker {
 			decrypt();
 		}
 	}
-
+	
+	// Encrypts the token when the user provides their token and password
 	public static void encrypt() throws Exception {
 		try {
 			token = ((String) JOptionPane.showInputDialog(null, "Please enter your GitHub token.", "GitHub Token",
@@ -59,6 +61,9 @@ public class TokenHacker {
 		AESCipher.encrypt(token, password);
 	}
 
+	/*
+	 * Decrypts the token when the user provides their password
+	 */
 	public static void decrypt() {
 		boolean isCorrectPassword = false;
 		while (!isCorrectPassword) {

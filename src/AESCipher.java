@@ -71,12 +71,14 @@ public class AESCipher {
 				JOptionPane.INFORMATION_MESSAGE, iconToken);
 	}
 
+	// Generates a key based on a password
 	public static SecretKey generateKey(String password) throws Exception {
 		SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
 		return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
 	}
 
+	// Generates an Initialization Vector based on a password
 	public static IvParameterSpec generateIV(String password) {
 		byte[] ivArray = new byte[16];
 		int length = 16;
