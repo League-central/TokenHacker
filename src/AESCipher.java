@@ -1,3 +1,7 @@
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -66,8 +70,9 @@ public class AESCipher {
 		byte[] decryptedToken = cipher.doFinal(Base64.getDecoder().decode(encryptedToken.getBytes()));
 
 		// Print out token
-		System.out.println(new String(decryptedToken));
-		JOptionPane.showMessageDialog(null, "Success! Your token was printed to the console.", "Succesful Hacking",
+		System.out.print(new String(decryptedToken));
+		copyToClipboard(new String(decryptedToken));
+		JOptionPane.showMessageDialog(null, "Success! Your token was COPIED to your CLIPBOARD.", "Succesful Hacking",
 				JOptionPane.INFORMATION_MESSAGE, iconToken);
 	}
 
@@ -89,6 +94,12 @@ public class AESCipher {
 			ivArray[i] = (byte) password.charAt(i);
 		}
 		return new IvParameterSpec(ivArray);
+	}
+	
+	public static void copyToClipboard(String token) {
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		Transferable transferable = new StringSelection(token);
+		clipboard.setContents(transferable, null);
 	}
 
 	public static ImageIcon loadImage(String file) {
