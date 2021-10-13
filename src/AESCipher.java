@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 public class AESCipher {
 	static String salt = "leagueOfAmazing";
 	static Icon iconToken = loadImage("token.png");
+	static String file = ".encrypted_token.txt";
 
 	public static void encrypt(String token, String password) throws Exception {
 		// Generate a key based on the password
@@ -40,17 +41,17 @@ public class AESCipher {
 		byte[] encryptedToken = cipher.doFinal(token.getBytes());
 
 		// Writing the encrypted token to file
-		FileWriter fw = new FileWriter("encrypted_token.txt");
+		FileWriter fw = new FileWriter(file);
 		fw.write(Base64.getEncoder().encodeToString(encryptedToken));
 		fw.close();
 
-		JOptionPane.showMessageDialog(null, "Success! You encrypted your token into \"encrypted_token.txt\"",
+		JOptionPane.showMessageDialog(null, "Success! Your token is encrypted.",
 				"Succesful Hacking", JOptionPane.INFORMATION_MESSAGE, iconToken);
 	}
 
 	public static void decrypt(String password) throws Exception {
 		// Read the encrypted token from file
-		BufferedReader br = new BufferedReader(new FileReader("encrypted_token.txt"));
+		BufferedReader br = new BufferedReader(new FileReader(file));
 		String encryptedToken = br.readLine();
 		br.close();
 
