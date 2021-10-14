@@ -8,9 +8,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class TokenHacker {
-	static String token = "";
-	static String password = "";
-	static String password2 = "";
+	String token = "";
+	String password = "";
+	String password2 = "";
 	static Icon iconHack = loadImage("hacker.jpeg");
 	static Icon iconToken = loadImage("token.png");
 	static Icon iconPassword = loadImage("password.png");
@@ -25,13 +25,17 @@ public class TokenHacker {
 
 		if (cipherChoice == 1) {
 			encrypt();
-		} else {
+		} else if (cipherChoice == 0) {
 			decrypt();
+		} else {
+			JOptionPane.showMessageDialog(null, "Unsuccessful. Goodbye :)", "Hacking Error", JOptionPane.ERROR_MESSAGE,
+					iconError);
+			System.exit(1);
 		}
 	}
 
 	// Encrypts the token when the user provides their token and password
-	public static void encrypt() throws Exception {
+	public void encrypt() throws Exception {
 		try {
 			token = ((String) JOptionPane.showInputDialog(null, "Please enter your GitHub token.", "GitHub Token",
 					JOptionPane.QUESTION_MESSAGE, iconToken, null, null)).trim();
@@ -57,7 +61,7 @@ public class TokenHacker {
 	}
 
 	// Decrypts the token when the user provides their password
-	public static void decrypt() {
+	public void decrypt() {
 		boolean isCorrectPassword = false;
 		while (!isCorrectPassword) {
 			password = inputPassword("Please enter your GitHub password.");
@@ -74,7 +78,7 @@ public class TokenHacker {
 	}
 
 	// Custom password input that hides the text
-	public static String inputPassword(String prompt) {
+	public String inputPassword(String prompt) {
 		Box box = Box.createVerticalBox();
 		JLabel label = new JLabel(prompt);
 		JPasswordField text = new JPasswordField(6);

@@ -1,7 +1,7 @@
 /*
- * This is the class that would be included in each module
+ * Run this program to either save(encrypt) or get(decrypt) your token
  */
-public class Runner {
+public class LeagueToken {
 	public static void main(String[] args) throws Exception {
 		TokenHacker hacker = new TokenHacker();
 		hacker.hack();
