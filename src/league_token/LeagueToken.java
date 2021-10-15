@@ -1,3 +1,4 @@
+package league_token;
 /*
  * Run this program to either save(encrypt) or get(decrypt) your token
  */

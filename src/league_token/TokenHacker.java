@@ -1,3 +1,4 @@
+package league_token;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
